@@ -1,63 +1,38 @@
 /*****************************************************
- Andrés Ángel González Granda - uo68216@uniovi.es 
-  Estructura de la página.
+  Andrés Ángel González Granda - uo68216@uniovi.es 
+   Estructura de la página.
 ******************************************************/
 /* MONITOR */
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 header {
   display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: 2vw;
+  flex-flow: column wrap;
+  gap: 0.25vw;
 }
-/*Especificidad: 002*/
-/* Redefine text-align de la hoja de estilos general estilo.css */
-header h1 {
-  flex: 30;
-  text-align: left;
-  padding: 0.25vw 2.5vw;
-}
-/*Especificidad: 002*/
+
+/* Especificidad: 002 */
 header nav {
-  flex: 70;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-around;
   align-content: space-around;
   gap: 2.5vw;
+
+}
+@media (max-width: 799px) {/* TABLET */
 }
 
-/* TABLET */
-@media (max-width: 799px) {
-  /*Especificidad: 001*/
-  /* Redefine flex-flow de row nowrap a column wrap (Monitor a Tablet) */
-  header {
-    flex-flow: column wrap;
-  }
-  /*Especificidad: 003*/
-  /* Redefine font-size de la hoja de estilos general estilo.css */
-  header nav a {
-    font-size: calc(0.6em + 0.75vw);
-  }
-}
-
-/*  MOVIL */
-@media (max-width: 465px) {
-  /*Especificidad: 002*/
-  /* Redefine flex-flow de row wrap a column nowrap (Monitor a Movil) */
+@media (max-width: 465px) {/*  MOVIL */
+  /* Especificidad: 002 */
   header nav {
+    /* Redefine flex-flow de row wrap a column nowrap (Monitor a Movil) */
     flex-flow: column nowrap;
   }
-  /*Especificidad: 003*/
-  /* Redefine font-size de la hoja de estilos general estilo.css */
-  header nav a {
-    font-size: calc(0.7em + 1.5vw);
-  }
-
-  /*Especificidad: 012*/
-  /* Ocultar migas de pan */
-  body > p:first-of-type {
+  
+  /*Especificidad: 012 */
+    body > p:first-of-type {
+    /* Oculta migas de pan */
     display: none;
   }
 }

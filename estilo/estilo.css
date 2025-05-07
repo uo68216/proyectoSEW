@@ -1,6 +1,9 @@
-/* Andrés Ángel González Granda - uo68216 */
+/*****************************************************
+  Andrés Ángel González Granda - uo68216@uniovi.es 
+   Estilos generales del proyecto.
+******************************************************/
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 body {
   /* Color */
   color: #000000;
@@ -15,67 +18,70 @@ body {
   margin: 0;
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 header {
   /* Color */
   color: #ffffff;
   background-color: #041e42;
   /* Márgenes y rellenos */
-  padding: 1vw;
+  padding: 0.75vw;
 }
 
-/*Especificidad: 001,001,001,001,001,001*/
-/* Tipografia general de los encabezados */
+/* Especificidad: 001,001,001,001,001,001 */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6 { /* Tipografia general de los encabezados */
   font-family: Georgia, "Times New Roman", Times, serif;
   font-style: italic;
 }
-/*Especificidad: 001*/
+
+/* Especificidad: 001 */
 h1 {
-  font-size: calc(1.7em + 1vw);
+  /* Tipografía */
+  font-size: calc(1.7em + 0.9vw);
   font-weight: bold;
-  text-align: center;
+  text-align: left;
+  /* Márgenes y rellenos */
   margin: 0;
-}
-/*Especificidad: 001*/
-h2 {
-  font-size: calc(1.7em + 1vw);
+  padding: 0.25vw 1vw;
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
+h2 {
+  font-size: calc(1.6em + 0.7vw);
+}
+
+/* Especificidad: 001 */
 h3 {
   font-size: calc(1.5em + 0.5vw);
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 h4 {
   font-size: calc(1.414em + 0.375vw);
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 h5 {
   font-size: calc(1.33em + 0.35vw);
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 h6 {
   font-size: calc(1.062em + 0.325vw);
 }
 
-/*Especificidad: 002*/
-/* Enlace dentro de H1 */
-h1 > a {
+/* Especificidad: 002 */
+h1 > a { /* Enlace dentro de H1 */
   color: #ffffff;
   /* Hereda background-color de header (#041E42) */
   text-decoration: none;
 }
 
-/*Especificidad: 003*/
+/* Especificidad: 003 */
 /* Menú principal */
 header > nav > a {
   /* Color */
@@ -83,10 +89,32 @@ header > nav > a {
   /* Hereda background color de header (#041E42) */
   /* Tipografía */
   text-decoration: none;
-  font-size: calc(0.75em + 0.2vw);
+  font-size: calc(1em + 0.25vw);
 }
 
-/*Especificidad: 012*/
+@media (max-width: 799px) {/* TABLET */
+  /* Especificidad: 003 */
+  /* Redefine font-size */
+  header > nav > a {
+    font-size: calc(0.6em + 0.75vw);
+  }
+}
+
+@media (max-width: 465px) {/*  MOVIL */
+  /* Especificidad: 003 */
+  header > nav > a {
+    /* Redefine font-size */
+    font-size: calc(0.7em + 1.5vw);
+  }
+}
+/* Elemento activo del menú */
+/* Especificidad: 013 */
+header > nav > a.active {
+  color: #1df500;
+  /*Hereda background color de header (#041E42) */
+  transform: scale(1.2); /* Incrementa el tamaño un 20% */
+}
+/* Especificidad: 012 */
 /* Migas de pan */
 body > p:first-of-type {
   /* Color */
@@ -103,37 +131,14 @@ body > p:first-of-type {
   border-style: dotted; /* Estilo del borde */
 }
 
-/*Especificidad: 013*/
+/* Especificidad: 013 */
 /* Enlaces de las migas de pan */
 body > p:first-of-type > a {
   color: #ffffff;
   /* Hereda background color de body > p:first-of-type (#01336f) */
 }
-/*Especificidad: 002*/
-/* Submenú de navegación */
-body > nav {
-  /* Color */
-  background-color: #013e89;
-  /* Hereda color de body (#000000) */
-  border-color: #ffffff; /* Color del borde */
-  /* Márgenes y rellenos */
-  padding: 0.25vw 2.5vw;
-  margin: 0vw;
-  /* Otras */
-  border-width: 0.25vh; /* Grosor del borde */
-  border-style: dotted; /* Estilo del borde */
-}
 
-/*Especificidad: 003*/
-/* Enlaces del submenú de navegación */
-body > nav > a {
-  color: #ffffff;
-  /* Hereda background-color de body > nav  (#013e89) */
-  font-size: calc(0.8em + 0.25vw);
-  text-decoration: none;
-}
-
-/*Especificidad: 001,001*/
+/* Especificidad: 001,001 */
 main,
 aside {
   margin: 0vw 1vw;
@@ -141,7 +146,7 @@ aside {
 
 /* Enlaces externos al sitio web (empiezan por http) */
 /* ------------------------------------------------- */
-/*Especificidad: 012*/
+/* Especificidad: 012 */
 /* Añadimos un icono después de los enlaces externos*/
 a[href^="http"]::after {
   content: url("../multimedia/imagenes/Flecha-Enlace.png");
@@ -149,29 +154,29 @@ a[href^="http"]::after {
   vertical-align: middle; /* Alinear con el texto */
 }
 
-/*Especificidad: 021*/
+/* Especificidad: 021 */
 a[href^="http"]:link {
   color: #0000ff;
   /* Hereda background-color de body (#8ff8ff) */
 }
 
-/*Especificidad: 021*/
+/* Especificidad: 021 */
 a[href^="http"]:visited {
   color: #630170;
   /* Hereda background-color de body (#8ff8ff) */
 }
 
-/*Especificidad: 021*/
+/* Especificidad: 021 */
 a[href^="http"]:focus {
   border: 0.75vh solid;
 }
 
-/*Especificidad: 021*/
+/* Especificidad: 021 */
 a[href^="http"]:hover {
   border: 1.5vh solid;
 }
 
-/*Especificidad: 021*/
+/* Especificidad: 021 */
 a[href^="http"]:active {
   color: #ff0000;
   background: #ffffff;
@@ -179,69 +184,69 @@ a[href^="http"]:active {
 
 /* Listas */
 /* ------ */
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 li {
   padding-left: calc(0.25em + 0.15vw);
 }
 
-/*Especificidad: 002*/
+/* Especificidad: 002 */
 li li {
   font-size: calc(0.9em + 0.25vw);
 }
 
-/*Especificidad: 003*/
+/* Especificidad: 003 */
 li li li {
   font-size: calc(0.8em + 0.25vw);
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 ol {
   list-style-position: outside;
 }
 
-/*Especificidad: 003*/
+/* Especificidad: 003 */
 ol > li::marker {
   content: "(" counter(list-item, upper-roman) ")";
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 ul {
   list-style-type: "★";
   list-style-position: outside;
 }
 
-/*Especificidad: 005*/
+/* Especificidad: 005 */
 ol ul ol li::marker {
   content: counter(list-item, decimal) ".";
 }
 
-/*Especificidad: 016*/
+/* Especificidad: 016*/
 ol li ul li:last-child ol li {
   font-style: italic;
 }
 
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 dl {
   counter-reset: definitionTerms;
   padding-left: 2em;
   padding-right: 2em;
 }
 
-/*Especificidad: 002*/
+/* Especificidad: 002 */
 dl > dt {
   font-weight: bolder;
   text-decoration: underline;
   font-size: calc(1.1em + 0.25vw);
 }
 
-/*Especificidad: 003*/
+/* Especificidad: 003 */
 dl > dt::before {
   counter-increment: definitionTerms;
   content: "(" counter(definitionTerms, lower-roman) ")";
   padding-right: 0.5em;
 }
 
-/*Especificidad: 002*/
+/* Especificidad: 002 */
 dl > dd {
   font-style: italic;
   text-align: justify;
@@ -249,19 +254,12 @@ dl > dd {
   padding-top: 0.4em;
 }
 
-/*Especificidad: 002*/
+/* Especificidad: 002 */
 dd + dt {
   margin-top: 0.8em;
 }
 
-/* Elemento activo del menú */
-/* ------------------------ */
-/*Especificidad: 013*/
-header > nav > a.active {
-  color: #1df500;
-  /*Hereda background color de header (#041E42) */
-  transform: scale(1.2); /* Incrementa el tamaño un 20% */
-}
+
 
 /* Elementos multimedia */
 /* -------------------- */
@@ -283,14 +281,14 @@ header > nav > a.active {
   }
 }
 /* Artículos  */
-/*Especificidad: 001*/
+/* Especificidad: 001 */
 article
 {
   margin: 2vw 0vw;
   border: 0.3vw solid #000000;
   border-radius: 2vw;
 }
-/*Especificidad: 002,002,002,002,002*/
+/* Especificidad: 002,002,002,002,002 */
 article h3,
 article h4,
 article h5,
@@ -300,7 +298,7 @@ article section,
 article figure {
   margin: 0;
 }
-/*Especificidad: 002*/
+/* Especificidad: 002 */
 article > section
 {
   margin: 1vw;
