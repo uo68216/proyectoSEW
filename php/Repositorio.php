@@ -3,7 +3,7 @@ declare(strict_types=1);
 require_once 'Validator.php';
 require_once 'DatabaseException.php';
 
-abstract class Model
+abstract class Repositorio
 {
     protected int $id;
     protected static PDO $db;
@@ -23,7 +23,7 @@ abstract class Model
         return $this->id;
     }
 
-    public static function create(array|Model $data): int // Permite array o objeto de clase hija
+    public static function create(array|Repositorio $data): int // Permite array o objeto de clase hija
     {
         if ($data instanceof self) {
             // Extrae propiedades del objeto (públicas y protegidas)
@@ -33,7 +33,7 @@ abstract class Model
         }
 
         Validator::validate($data, static::getValidationRules());
-        
+
         $table = static::getTableName();
         $fields = implode(', ', array_keys($data));
         $placeholders = ':' . implode(', :', array_keys($data));
@@ -41,7 +41,7 @@ abstract class Model
         try {
             $stmt = self::$db->prepare($sql);
             $stmt->execute($data);
-            return (int)self::$db->lastInsertId();
+            return (int) self::$db->lastInsertId();
         } catch (\PDOException $e) {
             throw new DatabaseException("Error al crear el registro en '$table': " . $e->getMessage());
         }
@@ -60,8 +60,8 @@ abstract class Model
             throw new DatabaseException("Error al buscar en '$table' con ID $id: " . $e->getMessage());
         }
     }
-    
-    public static function update(array|Model $data, ?int $id = null): bool // También permite array o objeto con detección de ID
+
+    public static function update(array|Repositorio $data, ?int $id = null): bool // También permite array o objeto con detección de ID
     {
         if ($data instanceof self) {
             // Extrae datos y recupera el ID del objeto
@@ -69,7 +69,7 @@ abstract class Model
             $data = get_object_vars($data);
         }
 
-        if ($id === null || $id <= 0){
+        if ($id === null || $id <= 0) {
             throw new InvalidArgumentException('El ID es obligatorio y debe ser mayor que cero.');
         }
         Validator::validate($data, static::getValidationRules());
@@ -85,7 +85,7 @@ abstract class Model
         }
     }
 
-    public static function delete(int|Model $target): bool // Acepta un ID o una instancia del modelo
+    public static function delete(int|Repositorio $target): bool // Acepta un ID o una instancia del Repositorioo
     {
         // Si se recibe un objeto, obtenemos el ID
         $id = $target instanceof self ? $target->getId() : $target;
@@ -103,7 +103,7 @@ abstract class Model
             throw new DatabaseException("Error al eliminar de '$table' con ID $id: " . $e->getMessage());
         }
     }
-    
+
     // Métodos abstractos que deben implementar las clases hijas
     abstract public static function fromArray(array $data): static;
     abstract protected static function getTableName(): string;

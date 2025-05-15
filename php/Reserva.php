@@ -8,9 +8,9 @@ class Reserva extends Model
 {
     protected int $usuario_id;
     protected int $recurso_id;
-    protected string $fechaInicio;
+    protected string $fechaHoraInicio;
     protected string $horaInicio;
-    protected string $fechaFin;
+    protected string $fechaHoraFin;
     protected string $horaFin;
     protected int $numeroPlazas;
     protected float $precioPlaza;
@@ -47,9 +47,9 @@ class Reserva extends Model
         parent::__construct($id ?? 0);
         $this->usuario_id = $usuario_id;
         $this->recurso_id = $recurso_id;
-        $this->fechaInicio = $fechaInicio;
+        $this->fechaHoraInicio = $fechaInicio;
         $this->horaInicio = $horaInicio;
-        $this->fechaFin = $fechaFin;
+        $this->fechaHoraFin = $fechaFin;
         $this->horaFin = $horaFin;
         $this->numeroPlazas = $numeroPlazas;
         $this->precioPlaza = $precioPlaza;
@@ -96,7 +96,7 @@ class Reserva extends Model
     // Getters
     public function getFechaInicio(): string
     {
-        return $this->fechaInicio;
+        return $this->fechaHoraInicio;
     }
 
     public function getHoraInicio(): string
@@ -106,7 +106,7 @@ class Reserva extends Model
 
     public function getFechaFin(): string
     {
-        return $this->fechaFin;
+        return $this->fechaHoraFin;
     }
 
     public function getHoraFin(): string
