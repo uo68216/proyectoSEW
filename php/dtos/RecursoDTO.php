@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-require_once 'Modelo.php';
-class Recurso extends Modelo
+require_once 'DTO.php';
+class RecursoDTO extends DTO
 {
-
     private ?int $id;
     private string $nombre;
     private string $descripcion;
-    private ?int $tipoRecurso_id;
+    private int $tipoRecurso_id;
 
     public function __construct(
         ?int $id,
@@ -24,7 +23,12 @@ class Recurso extends Modelo
 
     public static function fromArray(array $data): self
     {
-        return new self($data['id'] ?? null, $data['nombre'] ?? null, $data['descripcion'] ?? null, $data['tipoRecurso_id'] ?? null);
+        return new self(
+            isset($data['id']) ? (int) $data['id'] : null,
+            (string) $data['nombre'],
+            (string) $data['descripcion'] ,
+            (int) $data['tipoRecurso_id']
+        );
     }
 
     public function toArray(): array
@@ -53,7 +57,7 @@ class Recurso extends Modelo
         return $this->descripcion;
     }
 
-    public function getTipoRecurso_id(): ?int
+    public function getTipoRecurso_id(): int
     {
         return $this->tipoRecurso_id;
     }

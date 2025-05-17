@@ -3,7 +3,7 @@ declare(strict_types=1);
 require_once 'Validator.php';
 require_once 'DatabaseException.php';
 
-abstract class Repositorio
+abstract class Repositorio_ant
 {
     protected int $id;
     protected static PDO $db;
@@ -34,7 +34,7 @@ abstract class Repositorio
 
         Validator::validate($data, static::getValidationRules());
 
-        $table = static::getTableName();
+        $table = static::getNombreTabla();
         $fields = implode(', ', array_keys($data));
         $placeholders = ':' . implode(', :', array_keys($data));
         $sql = "INSERT INTO $table ($fields) VALUES ($placeholders)";
@@ -49,7 +49,7 @@ abstract class Repositorio
 
     public static function find(int $id): ?static  // Buscar por ID, retorna objeto de clase hija
     {
-        $table = static::getTableName();
+        $table = static::getNombreTabla();
         $sql = "SELECT * FROM $table WHERE id = :id";
         try {
             $stmt = self::$db->prepare($sql);
@@ -74,7 +74,7 @@ abstract class Repositorio
         }
         Validator::validate($data, static::getValidationRules());
 
-        $table = static::getTableName();
+        $table = static::getNombreTabla();
         $fields = implode(', ', array_map(fn($k) => "$k = :$k", array_keys($data)));
         $sql = "UPDATE $table SET $fields WHERE id = :id";
         try {
@@ -94,7 +94,7 @@ abstract class Repositorio
             throw new InvalidArgumentException('ID inválido para eliminar el registro.');
         }
 
-        $table = static::getTableName();
+        $table = static::getNombreTabla();
         $sql = "DELETE FROM $table WHERE id = :id";
         try {
             $stmt = self::$db->prepare($sql);
@@ -106,6 +106,6 @@ abstract class Repositorio
 
     // Métodos abstractos que deben implementar las clases hijas
     abstract public static function fromArray(array $data): static;
-    abstract protected static function getTableName(): string;
+    abstract protected static function getNombreTabla(): string;
     abstract protected static function getValidationRules(): array;
 }

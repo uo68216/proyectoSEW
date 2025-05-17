@@ -1,3 +1,11 @@
+<?php
+session_start();
+require_once __DIR__ . '/php/baseDatos/Db.php';
+require_once __DIR__ . 'php/controladores/ControladorReservas.php';
+
+$pdo = Db::getConexion();
+$controlador = new ControladorReservas($pdo);
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -31,8 +39,7 @@
     </header>
     <p>Estás en: <a href="index.html">Inicio</a> >> Reservas</p>
     <main>
-      <h2>Reservas</h2>
-      <p>En desarrollo</p>
+      <?php $controlador->ejecutar(); ?>
     </main>
   </body>
 </html>

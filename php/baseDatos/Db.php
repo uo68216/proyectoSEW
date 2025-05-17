@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '\Debug.php';
-require_once __DIR__ . '\DatabaseException.php';
-class DB {
-    private static ?\PDO $instance = null;
+require_once __DIR__ . '/DatabaseException.php';
+require_once __DIR__ . '/../util/Debug.php';
+class Db {
+    private static ?PDO $instance = null;
 
-    public static function getConnection(): \PDO {
+    public static function getConexion(): \PDO {
         if (self::$instance === null) {
             try {
-                $config = parse_ini_file(__DIR__ . '/configDB.ini');
+                $config = parse_ini_file(__DIR__ . '\configDB.ini');
                 Debug::log(['config =' => $config]);
                 $server = $config['server'];
                 $database = $config['database'];
@@ -17,10 +17,10 @@ class DB {
                 $charset = $config['charset'];
                 $dsn = "mysql:host=$server;dbname=$database;charset=$charset";
                 Debug::log(['dsn =' => $dsn]);
-                self::$instance = new \PDO($dsn, $user, $pass, [
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+                self::$instance = new PDO($dsn, $user, $pass, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
                 ]);
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 Debug::log(['DB Connection Error' => $e->getMessage()]);
                 throw new DatabaseException('Error al conectar con la base de datos.');
             }

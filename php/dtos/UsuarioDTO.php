@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-require_once 'Model.php';
+require_once 'DTO.php';
 
-class Usuario extends Modelo
+class UsuarioDTO extends DTO
 {
     private ?int $id;
     private string $nombre;

@@ -7,7 +7,7 @@ require_once 'ModelValidationException.php';
 require_once 'Usuario.php';
 
 // Conectar a la base de datos
-Model::setDb(DB::getConnection());
+Model::setDb(Db::getConexion());
 
 echo "<h2>CRUD de Usuarios</h2>";
 

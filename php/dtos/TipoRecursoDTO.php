@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-require_once 'Modelo.php';
+require_once 'DTO';
 
-class TipoRecurso extends Modelo
+class TipoRecursoDTO extends DTO
 {
     private ?int $id;
     private string $nombre;
@@ -18,7 +18,10 @@ class TipoRecurso extends Modelo
 
     public static function fromArray(array $data): self
     {
-        return new self($data['id'] ?? null, $data['nombre'] ?? null);
+        return new self(
+            isset($data['id']) ? (int) $data['id'] : null,
+            (string) $data['nombre']
+        );
     }
 
     public function toArray(): array
