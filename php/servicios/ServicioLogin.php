@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../repositorios/UsuarioRepositorio.php';
+require_once __DIR__ . '/../dtos/UsuarioDTO.php';
 
 class ServicioLogin {
     public static function procesarLogin(PDO $pdo): void {
@@ -7,39 +8,45 @@ class ServicioLogin {
         $password = $_POST['password'] ?? '';
 
         $repo = new UsuarioRepositorio($pdo);
-        $usuario = $repo->buscarPorEmail($email);
-        
-        if ($usuario && password_verify($password, $usuario->getClave())) {
-            $_SESSION['usuario_id'] = $usuario->getId();
-            $_SESSION['usuario_email'] = $usuario->getEmail();
-            $_SESSION['accion_diferida'] = $_SESSION['accion_diferida'] ?? 'inicio';
-            header("Location: reservas.php");
-            exit;
-        } else {
-            VistaLogin::mostrar("Credenciales incorrectas.");
+        $usuarioDTO = $repo->buscarPorEmail($email);
+        if ($usuarioDTO instanceof UsuarioDTO) {
+            if ($usuarioDTO && password_verify($password, $usuarioDTO->getClave())) {
+                $_SESSION['usuario_email'] = $usuarioDTO->getCorreoElectronico();
+                $_SESSION['accion_diferida'] = $_SESSION['accion_diferida'] ?? 'inicio';
+                header("Location: reservas.php");
+                exit;
+            } else {
+                VistaLogin::mostrar("Credenciales incorrectas.");
+            }
+        } else{
+            VistaLogin::mostrar("No está dado de alta el usuario " . $email);
         }
     }
 
     public static function procesarRegistro(PDO $pdo): void {
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            VistaRegistro::mostrar("Email inválido");
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $correoElectronico = $_POST['email'] ?? '';
+        $clave = $_POST['password'] ?? '';
+        
+        if (!filter_var($correoElectronico, FILTER_VALIDATE_EMAIL)) {
+            VistaRegistro::mostrar("Email no válido");
             return;
         }
 
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $claveCifrada = password_hash($clave, PASSWORD_DEFAULT);
+        $usuarioDTO = new UsuarioDTO(null,$nombre,$apellidos,$correoElectronico,$claveCifrada);
+        
         $repo = new UsuarioRepositorio($pdo);
         try {
-            $usuario = $repo->crear($email, $hash);
-            $_SESSION['usuario_id'] = $usuario->getId();
-            $_SESSION['usuario_email'] = $usuario->getEmail();
-            $_SESSION['accion_diferida'] = 'ver_recursos';
-            header("Location: reservas.php");
-            exit;
-        } catch (Exception $e) {
+            $repo->crear($usuarioDTO);
+        } catch (DatabaseException $e) {
             VistaRegistro::mostrar("Error: " . $e->getMessage());
         }
+
+        $_SESSION['usuario_email'] = $usuarioDTO->getCorreoElectronico();
+        $_SESSION['accion_diferida'] = 'inicio';
+        header("Location: reservas.php");
+        exit;
     }
 }

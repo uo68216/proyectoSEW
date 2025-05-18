@@ -14,7 +14,7 @@ abstract class Repositorio
     public static function crear(DTO $dto): int
     {
         // Extrae propiedades del objeto con toArray
-        $data = $dto::toArray();
+        $data = $dto->toArray();
         // Elimina 'id', debe ser autogenerado por la BD
         unset($data['id']);
 
@@ -31,7 +31,7 @@ abstract class Repositorio
         }
     }
 
-    public static function buscar(int $id): ?static  // Buscar por ID, retorna objeto de clase hija
+    public static function buscar(int $id): ?DTO  // Buscar por ID, retorna objeto de clase hija
     {
         $table = static::getNombreTabla();
         $sql = "SELECT * FROM $table WHERE id = :id";
@@ -49,8 +49,8 @@ abstract class Repositorio
     public static function actualizar(DTO $dto): bool
     {
         // Extrae propiedades del objeto con toArray
-        $data = $dto::toArray();
-        $campos = $dto::toArray();
+        $data = $dto->toArray();
+        $campos = $dto->toArray();
         unset($campos['id']);// Eliminamos 'id' de los camnpos
         $id = $data['id'];
 
@@ -65,7 +65,6 @@ abstract class Repositorio
             $stmt = self::$db->prepare($sql);
             return $stmt->execute($data);
         } catch (\PDOException $e) {
-            
             throw new DatabaseException("Error al actualizar el registro en '$table' con ID $id: " . $e->getMessage());
         }
     }
@@ -74,7 +73,7 @@ abstract class Repositorio
     {
         // Si se recibe un objeto, obtenemos el ID del propio dto.
         if ($dto instanceof DTO){
-            $data = $dto::toArray();
+            $data = $dto->toArray();
             $id = $data['id'];
         } else {
             $id= $dto;

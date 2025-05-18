@@ -23,7 +23,7 @@ class ControladorReservas {
                 break;
 
             case 'registro':
-                isset($_POST['email'], $_POST['password'])
+                isset($_POST['nombre'], $_POST['apellidos'], $_POST['email'], $_POST['password'])
                     ? ServicioLogin::procesarRegistro($this->pdo)
                     : VistaRegistro::mostrar();
                 break;
@@ -80,7 +80,7 @@ class ControladorReservas {
     }
 
     private function mostrarInicio(): void {
-        if (isset($_SESSION['usuario_id'])) {
+        if (isset($_SESSION['usuario_email'])) {
             VistaInicio::mostrar($_SESSION['usuario_email']);
         } else {
             VistaInicio::mostrar(null);

@@ -108,6 +108,6 @@ abstract class DTO
 
     // Métodos abstractos que deben implementar las clases hijas
     abstract public static function fromArray(array $data): static;
-    abstract public static function toArray(): array;
+    abstract public function toArray(): array;
     
 }

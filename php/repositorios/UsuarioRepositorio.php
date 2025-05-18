@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/Repositorio.php';
-require_once __DIR__ . '/../dtos/UsuarioDTO .php';
+require_once __DIR__ . '/../dtos/DTO.php';
+require_once __DIR__ . '/../dtos/UsuarioDTO.php';
 require_once __DIR__ . '/../baseDatos/DatabaseException.php';
 
 class UsuarioRepositorio extends Repositorio{
@@ -13,7 +14,7 @@ class UsuarioRepositorio extends Repositorio{
         return UsuarioDTO::class;
     }
 
-    public static function buscarPorEmail(string $email): ?static
+    public static function buscarPorEmail(string $email): ?DTO
     {
         $table = static::getNombreTabla();
         $sql = "SELECT * FROM $table WHERE correoElectronico = :email";

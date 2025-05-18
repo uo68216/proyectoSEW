@@ -25,9 +25,9 @@ class UsuarioDTO extends DTO
         $this->clave = $clave;
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): static
     {
-        return new self(
+        return new static(
             isset($data['id']) ? (int) $data['id'] : null,
             (string) $data['nombre'],
             (string) $data['apellidos'],
