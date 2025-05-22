@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vistas/VistaLogin.php';
 require_once __DIR__ . '/../vistas/VistaRegistro.php';
 require_once __DIR__ . '/../servicios/ServicioLogin.php';
 
-class ControladorReservas {
+class ControladorPaginaPrincipalReservas {
     private PDO $pdo;
 
     public function __construct(PDO $pdo) {

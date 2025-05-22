@@ -1,10 +1,10 @@
 <?php
 session_start();
 require_once __DIR__ . '/php/baseDatos/Db.php';
-require_once __DIR__ . '/php/controladores/ControladorReservas.php';
+require_once __DIR__ . '/php/controladores/ControladorPaginaPrincipalReservas.php';
 
 $pdo = Db::getConexion();
-$controlador = new ControladorReservas($pdo);
+$controlador = new ControladorPaginaPrincipalReservas($pdo);
 ?>
 <!DOCTYPE html>
 <html lang="es">
