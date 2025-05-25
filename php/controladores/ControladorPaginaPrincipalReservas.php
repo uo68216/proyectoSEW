@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../vistas/VistaInicio.php';
 require_once __DIR__ . '/../vistas/VistaLogin.php';
 require_once __DIR__ . '/../vistas/VistaRegistro.php';
+require_once __DIR__ . '/../vistas/VistaNuevaReserva.php';
 require_once __DIR__ . '/../servicios/ServicioLogin.php';
 require_once __DIR__ . '/../servicios/ServicioRegistro.php';
 
@@ -18,7 +18,7 @@ class ControladorPaginaPrincipalReservas {
 
         switch ($accion) {
             case 'login':
-                isset($_POST['email'], $_POST['password'])
+                isset($_POST['correoElectronico'], $_POST['contraseña'])
                     ? ServicioLogin::procesarLogin($this->pdo)
                     : VistaLogin::mostrar();
                 break;
@@ -29,17 +29,14 @@ class ControladorPaginaPrincipalReservas {
                     : VistaRegistro::mostrar();
                 break;
 
-            case 'logout':
+            case 'cerrarSesion':
                 session_destroy();
                 header("Location: reservas.php");
                 exit;
             
-            case 'cancelarLogin':
-            case 'cancelarRegistro':
-                header("Location: reservas.php");
-                break;
-            
-            case 'ver_recursos':
+            case 'filtrarRecursos':
+                // Pendiente modificar.
+                
                 $this->verRecursos();
                 break;
 
@@ -51,7 +48,7 @@ class ControladorPaginaPrincipalReservas {
                 $this->confirmarReserva();
                 break;
 
-            case 'mis_reservas':
+            case 'consultarReservas':
                 $this->mostrarReservasUsuario();
                 break;
 
@@ -87,14 +84,15 @@ class ControladorPaginaPrincipalReservas {
 
     private function mostrarInicio(): void {
         if (isset($_SESSION['usuario_email'])) {
-            VistaInicio::mostrar($_SESSION['usuario_email']);
+            VistaNuevaReserva::mostrar();
         } else {
-            VistaInicio::mostrar(null);
+            VistaLogin::mostrar();
         }
     }
 
     private function verRecursos(): void {
-        // TODO: implementar lógica para ver recursos turísticos disponibles
+        //Pendiente de rescatar de la bbdd
+        VistaNuevaReserva::mostrar();
     }
 
     private function iniciarReserva(): void {

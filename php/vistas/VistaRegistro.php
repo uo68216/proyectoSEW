@@ -12,7 +12,13 @@ class VistaRegistro {
         $repetirContraseña = isset($_POST['repetirContraseña']) ? htmlspecialchars($_POST['repetirContraseña']) :'';
 
         $html = <<<HTML
-            <h2>Registro de usuarios</h2>
+            <h2>Reservas</h2>
+            
+            <form name="formularioAuxiliar" method='post'>
+                <p>Si ya estás registrado puedes iniciar sesión pulsando sobre  
+                    <button type='submit' name='accion' value='login'>Iniciar sesión</button></p>
+            </form>
+
             <form name="formularioRegistro" method='post'>
                 <fieldset>
                     <legend>Formulario de registro</legend>
@@ -42,15 +48,6 @@ class VistaRegistro {
             echo "<p>$mensaje</p>";
         }
 
-        $html2 = <<<HTML
-            <form name="formularioAuxiliar" method='post'>
-                <p>Si ya estás registrado puedes iniciar sesión pulsando sobre  
-                    <button type='submit' name='accion' value='login'>Iniciar sesión</button></p>
-                <p>Puedes volver a la página inicial pulsando sobre 
-                    <button type='submit' name='accion' value='cancelarRegistro'>Cancelar</button>
-            </form>
-            HTML;
-        echo $html2;
         echo '</main>';
         // Validaciones de los campos en el cliente utilizando JavaScript antes de enviar el formulario.
         $script = <<<HTML
