@@ -37,9 +37,6 @@ $controlador = new ControladorPaginaPrincipalReservas($pdo);
         <a href="ayuda.html" title="Ayuda">Ayuda</a>
       </nav>
     </header>
-    <p>Estás en: <a href="index.html">Inicio</a> >> Reservas</p>
-    <main>
-      <?php $controlador->ejecutar(); ?>
-    </main>
+    <?php $controlador->ejecutar(); ?>
   </body>
 </html>

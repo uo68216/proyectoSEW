@@ -259,6 +259,25 @@ dd + dt {
   margin-top: 0.8em;
 }
 
+/* Especificidad: 002 */
+form label {
+    text-align: right;
+    font-weight: bold;
+}
+
+@media (max-width: 465px) {/*  MOVIL */
+  /* Especificidad: 002 */
+  form label {
+      /* Redefine text-align*/
+      text-align: left;      
+  }
+}
+
+/* Especificidad: 003 */
+form > fieldset > button{
+    margin-top: 1em;
+}
+
 
 
 /* Elementos multimedia */
@@ -304,3 +323,4 @@ article > section
   margin: 1vw;
   padding: 0vw 0vw 2vw 2vw;
 }
+

@@ -1,6 +1,8 @@
 <?php
 class VistaInicio {
     public static function mostrar(?string $email): void {
+        echo '<p>Estás en: <a href="index.html">Inicio</a> >> Reservas</p>';
+        echo '<main>'; //Migas de pan antes del main
         echo '<form method="post">';
         if ($email) {
             echo "<h2>Bienvenido, " . htmlspecialchars($email) . "</h2>";
@@ -13,5 +15,6 @@ class VistaInicio {
                   <button type='submit' name='accion' value='registro'>Registrarse</button>";
         }
         echo "</form>";
+        echo '</main>';
     }
 }

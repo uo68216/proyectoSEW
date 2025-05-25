@@ -3,6 +3,7 @@ require_once __DIR__ . '/../vistas/VistaInicio.php';
 require_once __DIR__ . '/../vistas/VistaLogin.php';
 require_once __DIR__ . '/../vistas/VistaRegistro.php';
 require_once __DIR__ . '/../servicios/ServicioLogin.php';
+require_once __DIR__ . '/../servicios/ServicioRegistro.php';
 
 class ControladorPaginaPrincipalReservas {
     private PDO $pdo;
@@ -23,8 +24,8 @@ class ControladorPaginaPrincipalReservas {
                 break;
 
             case 'registro':
-                isset($_POST['nombre'], $_POST['apellidos'], $_POST['email'], $_POST['password'])
-                    ? ServicioLogin::procesarRegistro($this->pdo)
+                isset($_POST['nombre'], $_POST['apellidos'], $_POST['correoElectronico'], $_POST['contraseña'], $_POST['repetirContraseña'])
+                    ? ServicioRegistro::procesarRegistro($this->pdo)
                     : VistaRegistro::mostrar();
                 break;
 
@@ -32,7 +33,12 @@ class ControladorPaginaPrincipalReservas {
                 session_destroy();
                 header("Location: reservas.php");
                 exit;
-
+            
+            case 'cancelarLogin':
+            case 'cancelarRegistro':
+                header("Location: reservas.php");
+                break;
+            
             case 'ver_recursos':
                 $this->verRecursos();
                 break;

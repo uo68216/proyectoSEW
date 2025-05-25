@@ -20,6 +20,22 @@ header nav {
   gap: 2.5vw;
 
 }
+
+/* Especificidad: 002 */
+form > fieldset{
+    display: grid;
+    grid-template-columns: 30% 70%;
+    row-gap: 3vw;
+    column-gap: 1vw;
+}
+
+/* Especificidad: 003 */
+form > fieldset > button{
+   grid-column: span 2;
+   justify-self: center;
+   
+}
+
 @media (max-width: 799px) {/* TABLET */
 }
 
@@ -28,6 +44,19 @@ header nav {
   header nav {
     /* Redefine flex-flow de row wrap a column nowrap (Monitor a Movil) */
     flex-flow: column nowrap;
+  }
+  
+  /* Especificidad: 002 */
+  form > fieldset{
+    /* Redefine grid-template-columns (Monitor a móvil)*/
+    grid-template-columns: 100%;
+    /* Redefine row-gap (Monitor a móvil)*/
+    row-gap: 2vw;}
+
+  /* Especificidad: 003 */
+  form > fieldset > button{
+    /* Redefine grid-columns (Monitor a móvil)*/
+    grid-column: 1;
   }
   
   /*Especificidad: 012 */
