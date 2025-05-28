@@ -4,16 +4,19 @@ class VistaNuevaReserva {
         echo '<p>Estás en: <a href="index.html">Inicio</a> >> <a href="reservas.php">Reservas</a> >> Nueva reserva</p>';
         echo '<main>'; //Migas de pan antes del main
         //Si estamos recargando el formulario recuperamos los datos de la sesión.
-        $correoElectronico = isset($_SESSION['usuario_email']) ? htmlspecialchars($_SESSION['usuario_email']) :'';
-        $fechaInicio = isset($_SESSION['fecha_Inicio']) ? htmlspecialchars($_SESSION['fecha_Inicio']) : (new DateTime())->format('d-m-Y');
-        // Pendiente otros valores.
+        $tipoRecurso = isset($_SESSION['tipo_Recurso']) ? $_SESSION['tipo_Recurso'] :'Todos';
+        $fechaInicio = isset($_SESSION['fecha_Inicio']) ? $_SESSION['fecha_Inicio'] : (new DateTime())->format('d-m-Y');
+        $numeroPlazas = isset($_SESSION['numero_Plazas']) ? $_SESSION['numero_Plazas'] :'1';
+        $correoElectronico = isset($_SESSION['usuario_email']) ? $_SESSION['usuario_email'] :'';
 
         $html = <<<HTML
         <h2>Reservas</h2>
-        <form name="formularioAuxiliar" method='post'>
-            <p>Sesión iniciada como $correoElectronico. <button type='submit' name='accion' value='cerrarSesion'>Cerrar sesión</button></p>
-            <p>Para ver tus reservas pulsa sobre <button type='submit' name='accion' value='consultarReservas'>Consultar Reservas</button></p>
-        </form>
+        <section>
+            <form name="formularioAuxiliar" method='post'>
+                <p>Sesión iniciada como $correoElectronico. <button type='submit' name='accion' value='cerrarSesion'>Cerrar sesión</button></p>
+                <p>Para ver tus reservas pulsa sobre <button type='submit' name='accion' value='consultarReservas'>Consultar Reservas</button></p>
+            </form>
+        </section>
         HTML;
 
         echo $html;
@@ -21,7 +24,6 @@ class VistaNuevaReserva {
         self::generarFormularioFiltro($fechaInicio);
         echo '</section>';
         echo '</main>';
-        self::generarScript();
     }
     private static function generarFormularioFiltro($fechaInicio):void{
         echo '<form name="formularioFiltro" method="post">';
@@ -54,7 +56,7 @@ class VistaNuevaReserva {
         }
         // Crear el select
         echo '<label for="selectFecha">Fecha: </label>';
-        echo '<select name="fecha" id="selectFecha" value='.$fechaInicio.'>';
+        echo '<select name="fechaInicio" id="selectFecha" onchange="this.form.submit()" value=' . $fechaInicio .'>';
         // Crear las opciones del select
         foreach ($fechas as $fecha) {
             echo "<option value=\"$fecha\">$fecha</option>";
@@ -66,25 +68,5 @@ class VistaNuevaReserva {
         //TO DO
     }
 
-    private static function generarScript():void{
-    $script = <<<HTML
-            <script>
-                "use strict";
-                class Filtro{
-                   constructor(){
-                        const formularioFiltro = document.forms['formularioFiltro'];
-                        const fecha = document.getElementById('selectFecha');
-                        const apellidos = document.getElementById('apellidos');
-                        
-                        fecha.addEventListener('change', () => {
-                             $_SESSION['fecha_Inicio'] = fecha.value;
-                        });
-                    }
-                }
-                var filtro = new Filtro();
-                
-            </script>
-        HTML;
-        echo $script;
-    }
+    
 }

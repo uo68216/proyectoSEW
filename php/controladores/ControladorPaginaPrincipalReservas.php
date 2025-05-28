@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vistas/VistaRegistro.php';
 require_once __DIR__ . '/../vistas/VistaNuevaReserva.php';
 require_once __DIR__ . '/../servicios/ServicioLogin.php';
 require_once __DIR__ . '/../servicios/ServicioRegistro.php';
+require_once __DIR__ . '/../servicios/ServicioReservas.php';
 
 class ControladorPaginaPrincipalReservas {
     private PDO $pdo;
@@ -13,7 +14,7 @@ class ControladorPaginaPrincipalReservas {
     }
 
     public function ejecutar(): void {
-        $this->gestionarSesionDiferida();
+        $this->gestionarAccionDiferida();
         $accion = $_POST['accion'] ?? 'inicio';
 
         switch ($accion) {
@@ -35,8 +36,6 @@ class ControladorPaginaPrincipalReservas {
                 exit;
             
             case 'filtrarRecursos':
-                // Pendiente modificar.
-                
                 $this->verRecursos();
                 break;
 
@@ -69,30 +68,48 @@ class ControladorPaginaPrincipalReservas {
         }
     }
 
-    private function gestionarSesionDiferida(): void {
-        if (isset($_SESSION['accion_diferida'])) {
-            $_POST['accion'] = $_SESSION['accion_diferida'];
-            unset($_SESSION['accion_diferida']);
-        }
-        if (isset($_SESSION['datos_diferidos'])) {
-            foreach ($_SESSION['datos_diferidos'] as $clave => $valor) {
-                $_POST[$clave] = $valor;
+    private function gestionarAccionDiferida(): void {
+        //Se trata la acción diferida solo si ya iniciamos sesión
+        if (isset($_SESSION['usuario_email'])) {
+            if (isset($_SESSION['accion_diferida'])) {
+                $_POST['accion'] = $_SESSION['accion_diferida'];
+                unset($_SESSION['accion_diferida']);
             }
-            unset($_SESSION['datos_diferidos']);
+            if (isset($_SESSION['datos_diferidos'])) {
+                foreach ($_SESSION['datos_diferidos'] as $clave => $valor) {
+                    $_POST[$clave] = $valor;
+                }
+                unset($_SESSION['datos_diferidos']);
+            }
         }
     }
 
     private function mostrarInicio(): void {
+        self::verRecursos();
+        /*/PTE VER SI ES NECESARIA O SI VALE SOLO CON verRecursos
         if (isset($_SESSION['usuario_email'])) {
             VistaNuevaReserva::mostrar();
         } else {
             VistaLogin::mostrar();
-        }
+        }*/
     }
 
     private function verRecursos(): void {
+        if (isset($_SESSION['usuario_email'])) {
+            ServicioReservas::verRecursos($this->pdo);
+        } else {
+            $_SESSION['accion_diferida'] = 'filtrarRecursos';
+            $_SESSION['datos_diferidos'] = [
+               'tipo_Recurso' => $_POST['tipo_Recurso'],
+               'fecha_Inicio' => $_POST['fecha_Inicio'],
+               'numero_Plazas' => $_POST['numero_Plazas']
+            ];
+            VistaLogin::mostrar();
+        }
+        
+        
         //Pendiente de rescatar de la bbdd
-        VistaNuevaReserva::mostrar();
+        
     }
 
     private function iniciarReserva(): void {

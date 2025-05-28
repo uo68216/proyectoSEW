@@ -21,19 +21,20 @@ header nav {
 
 }
 
-/* Especificidad: 002 */
-form > fieldset{
+/* Especificidad: 012, 012 */
+form[name = "formularioLogin"] > fieldset,
+form[name = "formularioRegistro"] > fieldset{
     display: grid;
     grid-template-columns: 30% 70%;
     row-gap: 3vw;
     column-gap: 1vw;
 }
 
-/* Especificidad: 003 */
-form > fieldset > button{
+/* Especificidad: 013, 013 */
+form[name = "formularioLogin"] > fieldset > button,
+form[name = "formularioRegistro"] > fieldset > button{
    grid-column: span 2;
    justify-self: center;
-   
 }
 
 @media (max-width: 799px) {/* TABLET */
@@ -46,15 +47,17 @@ form > fieldset > button{
     flex-flow: column nowrap;
   }
   
-  /* Especificidad: 002 */
-  form > fieldset{
+  /* Especificidad: 012, 012 */
+  form[name = "formularioLogin"] > fieldset,
+  form[name = "formularioRegistro"] > fieldset{
     /* Redefine grid-template-columns (Monitor a móvil)*/
     grid-template-columns: 100%;
     /* Redefine row-gap (Monitor a móvil)*/
     row-gap: 2vw;}
 
-  /* Especificidad: 003 */
-  form > fieldset > button{
+  /* Especificidad: 013, 013 */
+  form[name = "formularioLogin"] > fieldset > button,
+  form[name = "formularioRegistro"] > fieldset > button{
     /* Redefine grid-columns (Monitor a móvil)*/
     grid-column: 1;
   }

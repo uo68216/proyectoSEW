@@ -23,7 +23,7 @@ class ServicioLogin {
                 VistaLogin::mostrar("Contraseña incorrecta.");
             }
         } else{
-            VistaLogin::mostrar("El usuario " . $correoElectronico . "no está registrado");
+            VistaLogin::mostrar("El usuario " . $correoElectronico . " no está registrado");
         }
     }
 }

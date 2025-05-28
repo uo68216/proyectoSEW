@@ -1,8 +1,13 @@
 <?php
+require_once __DIR__ . '/../vistas/VistaNuevaReserva.php';
+
 class ServicioReservas {
-    public static function verRecursos(PDO $pdo): array {
-        // TODO: Obtener y devolver lista de recursos turísticos disponibles
-        return [];
+    public static function verRecursos(PDO $pdo): void {
+        session_start();// Iniciar la sesión
+        $_SESSION['fecha_Inicio'] = $_POST['fechaInicio'];
+
+
+        VistaNuevaReserva::mostrar();
     }
 
     public static function iniciarReserva(PDO $pdo, array $datos): void {
