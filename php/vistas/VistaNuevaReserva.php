@@ -21,18 +21,18 @@ class VistaNuevaReserva {
 
         echo $html;
         echo '<section>';
-        self::generarFormularioFiltro($fechaInicio);
+        self::generarFormularioFiltro($fechaInicio, $numeroPlazas);
         echo '</section>';
         echo '</main>';
     }
-    private static function generarFormularioFiltro($fechaInicio):void{
+    private static function generarFormularioFiltro($fechaInicio,$numeroPlazas):void{
         echo '<form name="formularioFiltro" method="post">';
         echo '<input type="hidden" name="accion" value="filtrarRecursos">';
         echo '<fieldset>';
         echo '<legend>Filtrar</legend>';
         self::generarSelectTipoRecurso();
         self::generarSelectFecha($fechaInicio);
-        self::generarSelectPlazas();
+        self::generarSelectPlazas($numeroPlazas);
         echo '</fieldset>';
         echo '</form>';
     }
@@ -56,17 +56,26 @@ class VistaNuevaReserva {
         }
         // Crear el select
         echo '<label for="selectFecha">Fecha: </label>';
-        echo '<select name="fechaInicio" id="selectFecha" onchange="this.form.submit()" value=' . $fechaInicio .'>';
+        echo '<select name="fechaInicio" id="selectFecha" onchange="this.form.submit()" value="' . $fechaInicio .'">';
         // Crear las opciones del select
         foreach ($fechas as $fecha) {
-            echo "<option value=\"$fecha\">$fecha</option>";
+            echo "<option value=\"$fecha\" ";
+            echo $fecha == $fechaInicio ? "selected":'';
+            echo ">$fecha</option>";
         }
         echo '</select>';
     }
 
-    private static function generarSelectPlazas():void{
-        //TO DO
+    private static function generarSelectPlazas($numeroPlazas):void{
+        // Crear el select
+        echo '<label for="selectPlazas">Plazas: </label>';
+        echo '<select name="plazas" id="selectPlazas" onchange="this.form.submit()" value="' . $numeroPlazas .'">';
+        // Crear las opciones del select
+        for ($i = 1; $i < 10; $i++) {
+            echo "<option value=\"$i\" ";
+            echo $i == $numeroPlazas? "selected":'';
+            echo ">$i</option>";
+        }
+        echo '</select>';
     }
-
-    
 }

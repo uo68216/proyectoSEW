@@ -3,10 +3,8 @@ require_once __DIR__ . '/../vistas/VistaNuevaReserva.php';
 
 class ServicioReservas {
     public static function verRecursos(PDO $pdo): void {
-        session_start();// Iniciar la sesión
         $_SESSION['fecha_Inicio'] = $_POST['fechaInicio'];
-
-
+        $_SESSION['numero_Plazas'] = $_POST['plazas'];
         VistaNuevaReserva::mostrar();
     }
 
