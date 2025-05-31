@@ -36,10 +36,10 @@ class ReservaDTO extends DTO
 
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): static
     {
         return new self(
-            isset($data['id']) ? (int) $data['id'] : null,
+            id: isset($data['id']) ? (int) $data['id'] : null,
             usuario_id: (int) $data['usuario_id'] ,
             recurso_id: (int) $data['recurso_id'] ,
             fechaHoraInicio: new DateTime ($data['fechaHoraInicio']) ,

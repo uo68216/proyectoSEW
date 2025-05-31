@@ -99,11 +99,7 @@ class ControladorPaginaPrincipalReservas {
             ServicioReservas::verRecursos($this->pdo);
         } else {
             $_SESSION['accion_diferida'] = 'filtrarRecursos';
-            $_SESSION['datos_diferidos'] = [
-               'tipo_Recurso' => $_POST['tipo_Recurso'],
-               'fecha_Inicio' => $_POST['fecha_Inicio'],
-               'numero_Plazas' => $_POST['numero_Plazas']
-            ];
+            $_SESSION['datos_diferidos'] = $_POST;
             VistaLogin::mostrar();
         }
         

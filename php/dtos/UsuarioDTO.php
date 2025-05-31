@@ -28,11 +28,11 @@ class UsuarioDTO extends DTO
     public static function fromArray(array $data): static
     {
         return new static(
-            isset($data['id']) ? (int) $data['id'] : null,
-            (string) $data['nombre'],
-            (string) $data['apellidos'],
-            (string) $data['correoElectronico'],
-            (string) $data['clave']
+            id: isset($data['id']) ? (int) $data['id'] : null,
+            nombre:(string) $data['nombre'],
+            apellidos:(string) $data['apellidos'],
+            correoElectronico: (string) $data['correoElectronico'],
+            clave:(string) $data['clave']
         );
     }
 

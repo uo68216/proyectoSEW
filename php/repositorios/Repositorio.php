@@ -41,8 +41,24 @@ abstract class Repositorio
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
             $dtoClass = static::getClaseDTO(); // <- aquí se obtiene dinámicamente la clase DTO.
             return $data ? $dtoClass::fromArray($data) : null;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             throw new DatabaseException("Error al buscar en '$table' con ID $id: " . $e->getMessage());
+        }
+    }
+
+    public static function buscarTodos(): array
+    {
+        $table = static::getNombreTabla();
+        $sql = "SELECT * FROM $table";
+        try {
+            $stmt = self::$db->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $dtoClass = static::getClaseDTO(); // Obtén dinámicamente la clase DTO.
+            // Convertimos cada fila de datos a un objeto DTO y lo devolvemos como un array
+            return array_map(fn($item) => $dtoClass::fromArray($item), $data);
+        } catch (PDOException $e) {
+            throw new DatabaseException("Error al buscar todos los registros en '$table': " . $e->getMessage());
         }
     }
 
@@ -64,7 +80,7 @@ abstract class Repositorio
         try {
             $stmt = self::$db->prepare($sql);
             return $stmt->execute($data);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             throw new DatabaseException("Error al actualizar el registro en '$table' con ID $id: " . $e->getMessage());
         }
     }
@@ -87,7 +103,7 @@ abstract class Repositorio
         try {
             $stmt = self::$db->prepare($sql);
             return $stmt->execute(['id' => $id]);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             throw new DatabaseException("Error al eliminar de '$table' con ID $id: " . $e->getMessage());
         }
     }
@@ -95,7 +111,7 @@ abstract class Repositorio
     /**
      * Permite ejecutar varias operaciones como una sola transacción
      * @param callable $operaciones
-     * @throws \DatabaseException
+     * @throws DatabaseException
      * @return mixed
      */
     public static function ejecutarTransaccion(callable $operaciones): mixed

@@ -21,13 +21,13 @@ class RecursoDTO extends DTO
         $this->tipoRecurso_id = $tipoRecurso_id;
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): static
     {
         return new self(
-            isset($data['id']) ? (int) $data['id'] : null,
-            (string) $data['nombre'],
-            (string) $data['descripcion'] ,
-            (int) $data['tipoRecurso_id']
+            id: isset($data['id']) ? (int) $data['id'] : null,
+            nombre: (string) $data['nombre'],
+            descripcion: (string) $data['descripcion'] ,
+            tipoRecurso_id: (int) $data['tipoRecurso_id']
         );
     }
 

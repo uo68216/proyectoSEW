@@ -34,7 +34,7 @@ class DisponibilidadDTO extends DTO
         $this->precio = self::formatearPrecioParaMySQL($precio);
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): static
     {
         return new self(
             isset($data['id']) ? (int) $data['id'] : null,

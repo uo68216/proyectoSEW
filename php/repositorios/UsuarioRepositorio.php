@@ -22,7 +22,7 @@ class UsuarioRepositorio extends Repositorio{
         try {
             $stmt = self::$db->prepare($sql);
             $stmt->execute(['email' => $email]);
-            $data = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
             $dtoClass = static::getClaseDTO(); // <- aquí se obtiene dinámicamente la clase DTO.
             return $data ? $dtoClass::fromArray($data) : null;
         } catch (PDOException $e) {
