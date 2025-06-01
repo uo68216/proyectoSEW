@@ -39,7 +39,7 @@ class ControladorPaginaPrincipalReservas {
                 $this->verRecursos();
                 break;
 
-            case 'iniciar_reserva':
+            case 'iniciarReserva':
                 $this->iniciarReserva();
                 break;
 
@@ -102,14 +102,16 @@ class ControladorPaginaPrincipalReservas {
             $_SESSION['datos_diferidos'] = $_POST;
             VistaLogin::mostrar();
         }
-        
-        
-        //Pendiente de rescatar de la bbdd
-        
     }
 
     private function iniciarReserva(): void {
-        // TODO: implementar lógica para iniciar una reserva
+        if (isset($_SESSION['usuario_email'])) {
+           //Todo
+        } else {
+            $_SESSION['accion_diferida'] = 'filtrarRecursos';
+            $_SESSION['datos_diferidos'] = $_POST;
+            VistaLogin::mostrar();
+        }
     }
 
     private function confirmarReserva(): void {

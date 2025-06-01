@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../vistas/VistaNuevaReserva.php';
 require_once __DIR__ . '/../repositorios/TipoRecursoRepositorio.php';
+require_once __DIR__ . '/../repositorios/DisponibilidadRepositorio.php';
 
 class ServicioReservas {
     private static $tiposReservas = [];
@@ -43,24 +44,19 @@ class ServicioReservas {
     }
 
     private static function getTiposReservas(PDO $pdo):array{
-        if (self::$tiposReservas == []){
-            try{
-                $repo = new TipoRecursoRepositorio($pdo);
-                self::$tiposReservas = $repo->buscarTiposReservas();
-            } catch (DatabaseException $e) {
-                // pendiente ver que se hace VistaLogin::mostrar("Error: " . $e->getMessage());
-            }
+        if (self::$tiposReservas == []){            
+            $repo = new TipoRecursoRepositorio($pdo);
+            self::$tiposReservas = $repo->buscarTiposReservas();
         }
         return self::$tiposReservas;
     }
 
     private static function getRecursosDisponibles(Pdo $pdo) : array{
-        try{
-                $repo = new TipoRecursoRepositorio($pdo);
-                self::$tiposReservas = $repo->buscarTiposReservas();
-        } catch (DatabaseException $e) {
-            //pendiente 
-            VistaLogin::mostrar("Error: " . $e->getMessage());
-        }
+        $tipoReserva = isset($_SESSION['tipo_Reserva']) ? $_SESSION['tipo_Reserva'] :'Todos';
+        $fechaInicio = isset($_SESSION['fecha_Inicio']) ? $_SESSION['fecha_Inicio'] : (new DateTime())->format('d-m-Y');
+        $numeroPlazas = isset($_SESSION['numero_Plazas']) ? $_SESSION['numero_Plazas'] :'1';
+              
+        $repo = new DisponibilidadRepositorio($pdo);
+        return $repo->buscarRecursosDisponibles($tipoReserva, $fechaInicio, $numeroPlazas); 
     }
 }

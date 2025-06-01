@@ -19,17 +19,19 @@ class VistaNuevaReserva {
             </section>
         HTML;
         echo $html;
-        
+        echo '<section>';
         self::generarFormularioFiltro($tipoReserva,$tiposReservas, $fechaInicio, $numeroPlazas);
         self::generarSeccionResultados($recursosDisponibles);
+        echo '</section>';
         echo '</main>';
     }
     private static function generarFormularioFiltro(string $tipoReserva, array $tiposReservas, string $fechaInicio, string $numeroPlazas):void{
         $html = <<<HTML
-            <form name="formularioFiltro" method="post">
-                <input type="hidden" name="accion" value="filtrarRecursos">
-                <fieldset>
-                    <legend>Filtrar</legend>
+            <section>
+                <form name="formularioFiltro" method="post">
+                    <input type="hidden" name="accion" value="filtrarRecursos">
+                    <fieldset>
+                        <legend>Filtrar</legend>
         HTML;
         echo $html;
         
@@ -38,14 +40,15 @@ class VistaNuevaReserva {
         self::generarSelectPlazas($numeroPlazas);
         
         $html2 = <<<HTML
-                    <button type="button" onclick="(function() {
-                        document.getElementById('selectTipoReservas').selectedIndex = 0;
-                        document.getElementById('selectFecha').selectedIndex = 0;
-                        document.getElementById('selectPlazas').selectedIndex = 0;
-                        document.forms['formularioFiltro'].submit();
-                    })()">Limpiar</button>
-                </fieldset>
-            </form>
+                        <button type="button" onclick="(function() {
+                            document.getElementById('selectTipoReservas').selectedIndex = 0;
+                            document.getElementById('selectFecha').selectedIndex = 0;
+                            document.getElementById('selectPlazas').selectedIndex = 0;
+                            document.forms['formularioFiltro'].submit();
+                        })()">Limpiar</button>
+                    </fieldset>
+                </form>
+            </section>
         HTML;
         echo $html2;
     }
@@ -104,7 +107,47 @@ class VistaNuevaReserva {
     private static function generarSeccionResultados(array $recursosDisponibles){
         echo '<section>';
         if (!empty($recursosDisponibles)){
-            echo '<p>Aquí pintaremos la tabla</p>';
+            //Cabecera de la tabla
+            $html = <<<HTML
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col" id="tipo">Tipo</th>
+                            <th scope="col" id="nombre">Nombre</th>
+                            <th scope="col" id="hora">Hora</th>
+                            <th scope="col" id="plazas">Plazas</th>
+                            <th scope="col" id="precio">Precio</th>
+                            <th scope="col" id="reservar">Reservar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            HTML;
+            echo $html;
+            //Contenido de las filas
+            foreach ($recursosDisponibles as $fila) {
+                echo "<tr>";
+                echo "<td headers=\"tipo\">" . $fila['tipo'] . "</td>";
+                echo "<td headers=\"nombre\">" . $fila['nombre'] . "</td>";
+                echo "<td headers=\"hora\">" . $fila['hora'] . "</td>";
+                echo "<td headers=\"plazas\">" . $fila['plazas'] . "</td>";
+                echo "<td headers=\"precio\">" . number_format($fila['precio'], 2, ',', '.') . " €</td>";
+                echo "<td>";
+                echo "<form name='formularioIniciarReserva' method='post'>";
+                echo "<input type='hidden' name='fechaHoraInicio' value='". $fila['fechaHoraInicio'] ."'>";
+                echo "<input type='hidden' name='idRecurso' value='". $fila['id'] ."'>";
+                echo "<button type='submit' name='accion' value='iniciarReserva'>Reservar</button>";
+                echo "</form>";
+                echo "</td>";
+                echo "</tr>";
+            }
+
+            $html2 = <<<HTML
+                    </tbody>
+                </table>
+            HTML;
+            echo $html2;
+            
+        
         }else{
             echo '<p>No existen recursos turísticos disponibles para reservar con el filtro actual</p>';
         }
